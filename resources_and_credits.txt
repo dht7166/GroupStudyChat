@@ -1,0 +1,7 @@
+
+Resources and Credits for frameworks,code used in project:
+
+Group Chat Functionality: https://github.com/mhadiahmed/real-Time-Chat-Django-channels
+
+
+

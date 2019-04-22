@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+	#chat-title
+	{
+		float: left;
+		padding: 0.5rem;
+	}
+	#document-title
+	{
+		float: left;
+		padding: 0.5rem;
+	}
+
+	#drawer
+	{
+		float: right;
+		padding: 0.5rem 3rem;
+		color: #7c7d7d;
+	}
+
+	#chat-area[readonly]
+	{
+		float: left;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#user-title
+	{
+		float: left;
+		padding: 0.5rem;
+	}
+
+	#user-area[readonly]
+	{
+		float: right;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#chat-input
+	{
+		float: left;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#left-eles
+	{
+		margin: 0px;
+		padding: 0rem 0.25rem;
+		display: inline-block;
+		width: 40%;
+	}
+
+	#mid-else
+	{
+		margin: 0px;
+		padding: 0rem 0.25rem;
+		display: inline-block;
+		width: 49%;
+	}
+
+	#right-eles
+	{
+		margin: 0px;
+		padding: 0rem 0.25rem;
+		display: inline-block;
+		width: 10%;
+	}
+</style>
+
+{% extends "homepage/base.html" %}
+{% block title %} {{room.name}} {% endblock %}
+
+
+
+
+{% block nav_bar %}
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="#">Room<span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="/room/lobby/">Lobby</a>
+        <a class="nav-item nav-link" href="/homepage/logout/">Logout</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+
+<body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+<script>
+	$(document).ready(function()
+	{ $('[data-toggle="popover"]').popover() });
+</script>
+
+<div class="form-group">
+	<span id="left-eles">
+		<label for="chat-area" id="chat-title"><strong>{{room.name}}</strong></label>
+
+        <iframe id="chat"
+            title="chat room"
+            width="600"
+            height="450"
+            src="/chat/chat/">
+        </iframe>
+	</span>
+
+    <span id ="mid-else">
+        <a href={{request.path}} title="Your Drawer" data-placement="auto"  id="drawer">
+            <strong>Documents Drawer</strong>
+        </a>
+		{% if file %}
+		<label for="document-title" id="document-title" ><strong><a href={{file.path}}>{{file.name}}</a></strong></label>
+		<object data={{file.path}} type={{file.MIME}} width="100%" height="400">
+  			<p>Cannot display file. Download <a href={{file.path}}>file here!</a></p>
+		</object>
+        {% else %}
+
+        <textarea readonly class="form-control" rows="17" id="file-area">
+            Your file will be shown here after upload, or choose a file below.
+        </textarea>
+
+		{% endif %}
+        <form method="post" action={{request.path}}>
+            {% csrf_token %}
+            <select class="form-control" name="open_file">
+                {% for f in file_set %}
+                    <option value = {{f.file}}>{{ f.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Open File!</button>
+        </form>
+	</span>
+    <span id="right-eles">
+		<label for="user-area" id="user-title"><strong>List of all user</strong></label>
+		<textarea readonly class="form-control" rows="20" id="user-area">
+		{% for user in user_list %}
+			{{user.username}}
+		{% endfor %}
+		</textarea>
+	</span>
+</div>
+
+<div class="input-group">
+    <label for="chat-input" id="input-title"></label>
+    <input type="text" class="form-control" rows="1" id="chat-input"></input>
+    <span class="input-group-btn">
+		<button class="btn btn-primary" type="button">Submit</button>
+	</span>
+</div>
+
+<div class = "input-group">
+    <form action = "" method = "post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type = "file" name = "upload">
+        <button class="btn btn-primary" type="submit">Upload file</button>
+    </form>
+</div>
+
+
+
+{% endblock %}
+</html>
