@@ -24,3 +24,4 @@ Twisted    ==    18.4.0
 txaio     ==     2.10.0 
 wheel     ==     0.31.1 
 zope.interface== 4.5.0  
+Twisted[tls,http2]
