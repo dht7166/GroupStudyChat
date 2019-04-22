@@ -23,6 +23,6 @@ wheel     ==     0.31.1
 zope.interface== 4.5.0  
 asgi_redis
 django-heroku
-
+gunicorn
 
 
