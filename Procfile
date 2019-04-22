@@ -1,2 +1,2 @@
-web: daphne GroupStudy.settings:CHANNEL_LAYERS --port $PORT --bind 0.0.0.0
+web: gunicorn GroupStudy.wsgi --log-file -
 worker: python manage.py runworker 
