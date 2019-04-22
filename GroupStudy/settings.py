@@ -119,7 +119,7 @@ USE_TZ = True
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "ROUTING": "ChatApp.routing.channel_routing",
     },
 }
