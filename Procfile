@@ -1,2 +1,2 @@
-web: daphne GroupStudy.settings:CHANNEL_LAYERS --port $PORT --bind 0.0.0.0 
+web: python manage.py runserver
 worker: python manage.py runworker 
