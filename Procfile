@@ -1,2 +1,2 @@
-web: python manage.py runserver
+web: gunicorn GroupStudy.wsgi --log-file-
 worker: python manage.py runworker 
